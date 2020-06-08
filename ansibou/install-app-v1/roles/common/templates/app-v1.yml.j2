@@ -1,0 +1,37 @@
+#apiVersion: extensions/v1beta1
+apiVersion: apps/v1
+kind: Deployment 
+metadata:
+#{% if environment == "testing" %}
+#  name: giropops-v1-testing
+#{% endif% }
+#{% if environment == "production" %}
+#  name: giropops-v1-prd
+#{% endif% }
+  name: giropops-v1
+spec:
+  replicas: {{ number_replicas }}
+  selector:
+    matchLabels: 
+      app: giropops
+  template:
+    metadata:
+      labels:
+        app: giropops
+        version: {{ version}}
+      annotations:
+        prometheus.io/scrape: "{{ prometheus_scrape }}"
+        prometheus.io/port: "{{ prometheus_port }}"
+     spec:
+       containers:
+       - name: giropops
+         image: linuxtips/nginx-prometheus-exporter:{{ version }}
+         env:
+         - name: VERSION
+           value: {{ version }}
+         ports:
+         - containerPort: {{ nginx_port }}
+         - containerPort: {{ prometheus_port }}
+#{% for i in range(10) %}
+#  name: giropops-{{ i }}
+#{% endfor %}

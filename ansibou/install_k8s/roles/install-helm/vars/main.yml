@@ -1,0 +1,5 @@
+---
+# vars file for install-helm
+deploy_prometheus: "--namespace=monitoring --name=prometheus --version=11.3.0 --set alertmanager.persistentVolume.enabled=false,server.persistentVolume.enabled=false stable/prometheus"
+#deploy_grafana: "--namespace=monitoring --name=grafana --version=0.2.6 --set adminUser=admin,adminPassword=admin,service.type=NodePort stable/grafana"
+deploy_grafana: "stable/grafana --name grafana --namespace=monitoring --set adminUser=admin,adminPassword=admin,service.type=NodePort"
